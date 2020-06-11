@@ -1,0 +1,14 @@
+{
+  "name": "NMEA0183-IEC61162-450-server-plugin",
+  "version": "1.0.0",
+  "description": "NMEA0183 IEC61162-450 server",
+  "main": "index.js",
+  "keywords": [
+    "signalk-node-server-plugin"
+  ],
+  "author": "Martijn de Munnik <martijndemunnik@protonmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "netmask": "^1.0.6"
+  }
+}
