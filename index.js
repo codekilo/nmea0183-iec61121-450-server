@@ -89,6 +89,7 @@ const TRANSMISSIONGROUPS = {
   },
 }
 const MULTICASTPREFIX = 'UdPbC\0'
+const MAXLINECOUNT = 1000
 
 module.exports = function (app) {
   let socket
@@ -104,19 +105,26 @@ module.exports = function (app) {
           socket.setMulticastInterface(address)
         })
 
+        let lineCount = 0
         const delimiter = '\r\n'
         const send = message => {
           transmissionGroup = findTransmissionGroup(message)
           if (transmissionGroup) {
             let tag = ''
-            if (options. includeTimestampInTag) {
-              tag += 'c:' + Date.now() + ','
-            }
             if (options.tagDestinationIdentification) {
               tag += 'd:' + options.tagDestinationIdentification + ','
             }
             if (options.tagSourceIdentification) {
               tag += 's:' + options.tagSourceIdentification + ','
+            }
+            if (options.includeTimestampInTag) {
+              tag += 'c:' + Date.now() + ','
+            }
+            if (options.includeLineCountInTag) {
+              tag += 'n:' + lineCount++ + ','
+              if (lineCount >= MAXLINECOUNT) {
+                lineCount = 0
+              }
             }
             if (tag.length > 0) {
               tag = tag.slice(0, - 1)
@@ -196,6 +204,11 @@ function schema () {
         title: 'Include c: timestamp in TAG block',
         default: true
       },
+      includeLineCountInTag: {
+        type: 'boolean',
+        title: 'Include n: line count in TAG block',
+        default: false
+      },
       tagDestinationIdentification: {
         type: 'string',
         title: 'Set d: destination identification in TAG block',
@@ -204,7 +217,7 @@ function schema () {
       tagSourceIdentification: {
         type: 'string',
         title: 'Set s: source identification in TAG block',
-        default: 'signalk'
+        default: 'SK0001'
       }
     }
   }
