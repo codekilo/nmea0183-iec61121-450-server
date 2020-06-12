@@ -98,11 +98,10 @@ module.exports = function (app) {
   return {
     start: options => {
       app.debug(options)
-      const address = options.ipaddress
-      if (address) {
+      if (options.ipaddress) {
         socket = dgram.createSocket('udp4')
         socket.bind(function(){
-          socket.setMulticastInterface(address)
+          socket.setMulticastInterface(options.ipaddress)
         })
 
         createTagBlock.lineCount = 0
