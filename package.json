@@ -1,5 +1,5 @@
 {
-  "name": "@signalk/nmea0183-iec61121-450-server",
+  "name": "@codekilo/nmea0183-iec61121-450-server",
   "version": "1.0.0",
   "description": "NMEA0183 (LWE) IEC61162-450 server",
   "main": "index.js",
@@ -8,7 +8,9 @@
   ],
   "author": "Martijn de Munnik <martijndemunnik@protonmail.com>",
   "license": "Apache-2.0",
-  "dependencies": {},
+  "dependencies": {
+    "netmask": "^1.0.6"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
