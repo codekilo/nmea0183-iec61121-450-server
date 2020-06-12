@@ -113,7 +113,7 @@ module.exports = function (app) {
             newMessage += createPrefix(options)
             newMessage += createTagBlock(options)
             newMessage += originalMessage + '\r\n'
-            app.debug(`Multicasting ${newMessage} to ${transmissionGroup.ADDRESS}:${transmissionGroup.PORT}`)
+            app.debug(JSON.stringify(`Multicasting ${newMessage} to ${transmissionGroup.ADDRESS}:${transmissionGroup.PORT}`))
             socket.send(newMessage, 0, newMessage.length, transmissionGroup.PORT, transmissionGroup.ADDRESS)
           }
         }
@@ -168,7 +168,7 @@ function schema () {
       },
       includeMulticastPrefix: {
         type: 'boolean',
-        title: 'Prefix sentences with ' + MULTICASTPREFIX + ' string according IEC61162-450',
+        title: 'Prefix sentences with ' + JSON.stringify(MULTICASTPREFIX) + ' string according IEC61162-450',
         default: true
       },
       includeTimestampInTag: {
