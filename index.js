@@ -105,44 +105,16 @@ module.exports = function (app) {
           socket.setMulticastInterface(address)
         })
 
-        let lineCount = 0
-        const delimiter = '\r\n'
-        const send = message => {
-          transmissionGroup = findTransmissionGroup(message)
+        createTagBlock.lineCount = 0
+        const send = originalMessage => {
+          transmissionGroup = findTransmissionGroup(originalMessage)
+          let newMessage = ''
           if (transmissionGroup) {
-            let tag = ''
-            if (options.tagDestinationIdentification) {
-              tag += 'd:' + options.tagDestinationIdentification + ','
-            }
-            if (options.tagSourceIdentification) {
-              tag += 's:' + options.tagSourceIdentification + ','
-            }
-            if (options.includeTimestampInTag) {
-              tag += 'c:' + Date.now() + ','
-            }
-            if (options.includeLineCountInTag) {
-              tag += 'n:' + lineCount++ + ','
-              if (lineCount >= MAXLINECOUNT) {
-                lineCount = 0
-              }
-            }
-            if (tag.length > 0) {
-              tag = tag.slice(0, - 1)
-            }
-            let msg = `${message}`
-            if (tag.length > 0) {
-              let tagChecksum = 0
-              for (let i = 0; i < tag.length; i++) {
-                tagChecksum ^= tag.charCodeAt(i)
-              }
-              msg = `\\${tag}*${tagChecksum.toString(16)}\\` + msg
-            }
-            if (options.includeMulticastPrefix) {
-              msg = MULTICASTPREFIX + msg
-            }
-            msg = msg + delimiter
-            app.debug(`Multicasting ${msg} to ${transmissionGroup.ADDRESS}:${transmissionGroup.PORT}`)
-            socket.send(msg, 0, msg.length, transmissionGroup.PORT, transmissionGroup.ADDRESS)
+            newMessage += createPrefix(options)
+            newMessage += createTagBlock(options)
+            newMessage += originalMessage + '\r\n'
+            app.debug(`Multicasting ${newMessage} to ${transmissionGroup.ADDRESS}:${transmissionGroup.PORT}`)
+            socket.send(newMessage, 0, newMessage.length, transmissionGroup.PORT, transmissionGroup.ADDRESS)
           }
         }
         if (typeof options.nmea0183 === 'undefined' || options.nmea0183) {
@@ -223,7 +195,45 @@ function schema () {
   }
 }
 
-function findTransmissionGroup(message) {
-  let talkerId = message.substring(1, 3)
+function findTransmissionGroup(originalMessage) {
+  let talkerId = originalMessage.substring(1, 3)
   return Object.values(TRANSMISSIONGROUPS).find(group => group.TALKERS.includes(talkerId))
+}
+
+function createPrefix(options) {
+  if (options.includeMulticastPrefix) {
+    return MULTICASTPREFIX
+  }
+  return ''
+}
+
+function createTagBlock(options) {
+  let tagBlock = ''
+  if (options.tagDestinationIdentification) {
+    tagBlock += 'd:' + options.tagDestinationIdentification + ','
+  }
+  if (options.tagSourceIdentification) {
+    tagBlock += 's:' + options.tagSourceIdentification + ','
+  }
+  if (options.includeTimestampInTag) {
+    tagBlock += 'c:' + Date.now() + ','
+  }
+  if (options.includeLineCountInTag) {
+    tagBlock += 'n:' + createTagBlock.lineCount++ + ','
+    if (createTagBlock.lineCount >= MAXLINECOUNT) {
+      createTagBlock.lineCount = 0
+    }
+  }
+
+  // return the tagBlock if it's empty
+  if (tagBlock.length == 0) {
+    return tagBlock
+  }
+
+  tagBlock = tagBlock.slice(0, - 1)
+  let tagBlockChecksum = 0
+  for (let i = 0; i < tagBlock.length; i++) {
+    tagBlockChecksum ^= tagBlock.charCodeAt(i)
+  }
+  return `\\${tagBlock}*${tagBlockChecksum.toString(16)}\\`
 }
