@@ -1,0 +1,82 @@
+{
+  "MISC": {
+    "talkers": ["BI", "DU", "ER", "II", "NL", "RC", "SG", "SS", "UP", "U0", "U1", "U2", "U3", "U4", "U5", "U6", "U7", "U8", "U9", "VR", "YX", "SI"],
+    "address": "239.192.0.1",
+    "port": 60001
+  },
+  "TGTD": {
+    "talkers": ["AI", "RA"],
+    "address": "239.192.0.2",
+    "port": 60002
+  },
+  "SATD": {
+    "talkers": ["HE", "HN", "TI"],
+    "address": "239.192.0.3",
+    "port": 60003
+  },
+  "NAVD": {
+    "talkers": ["AG", "AP", "DF", "EC", "EI", "GA", "GP", "GL", "GN", "HC", "HF", "IN", "LC", "SD", "SN", "VD", "VM", "VW", "WI"],
+    "address": "239.192.0.4",
+    "port": 60004
+  },
+  "VDRD": {
+    "talkers": ["BN", "FD", "FE", "FR", "FS", "HD", "HS", "WD", "WL"],
+    "address": "239.192.0.5",
+    "port": 60005
+  },
+  "RCOM": {
+    "talkers": ["CD", "CR", "CS", "CT", "CV", "CX", "EP"],
+    "address": "239.192.0.6",
+    "port": 60006
+  },
+  "TIME": {
+    "talkers": ["ZA", "ZC", "ZQ", "ZV"],
+    "address": "239.192.0.7",
+    "port": 60007
+  },
+  "PROP": {
+    "talkers": [],
+    "address": "239.192.0.8",
+    "port": 60008
+  },
+  "USR1": {
+    "talkers": [],
+    "address": "239.192.0.9",
+    "port": 60009
+  },
+  "USR2": {
+    "talkers": [],
+    "address": "239.192.0.10",
+    "port": 60010
+  },
+  "USR3": {
+    "talkers": [],
+    "address": "239.192.0.11",
+    "port": 60011
+  },
+  "USR4": {
+    "talkers": [],
+    "address": "239.192.0.12",
+    "port": 60012
+  },
+  "USR5": {
+    "talkers": [],
+    "address": "239.192.0.13",
+    "port": 60013
+  },
+  "USR6": {
+    "talkers": [],
+    "address": "239.192.0.14",
+    "port": 60014
+  },
+  "USR7": {
+    "talkers": [],
+    "address": "239.192.0.15",
+    "port": 60015
+  },
+  "USR8": {
+    "talkers": [],
+    "address": "239.192.0.16",
+    "port": 60016
+  }
+}
