@@ -9,7 +9,7 @@
   "author": "Martijn de Munnik <martijndemunnik@protonmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "netmask": "^1.0.6"
+    "netmask": "^2.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
